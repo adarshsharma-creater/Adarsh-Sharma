@@ -1,0 +1,199 @@
+clear()
+showAxes()
+setBackground(Color(255, 170, 29, 44))
+setPosition(-600, -100)
+setPenColor(black)
+setPenThickness(4)
+setSpeed(fast)
+setFillColor(gray)
+
+arc(110, -90)
+forward(200)
+left(35)
+forward(200)
+arc(110, -34)
+forward(350)
+arc(110, -50)
+forward(140)
+left(50)
+forward(100)
+arc(110, -20)
+arc(110, -30)
+arc(160, -10)
+right(25)
+forward(50)
+left(45)
+forward(20)
+right(45)
+forward(70)
+arc(10, -95)
+forward(200)
+right()
+arc(110, 180)
+right(91)
+forward(500)
+right()
+arc(110, 180)
+right(90)
+forward(32)
+arc(110, -85)
+//black part
+setFillColor(black)
+setPosition(480, -200)
+right(5)
+arc(110, 180)
+left()
+forward(20)
+left()
+arc(90, -180)
+//black part2
+setPosition(-460, -202)
+left(180)
+arc(110, -180)
+right()
+forward(20)
+right()
+arc(90, 180)
+//light
+setFillColor(red)
+setPosition(660, -30)
+right()
+hop(10)
+forward(100)
+left(135)
+forward(50)
+left(45)
+forward(80)
+left()
+forward()
+left(45)
+forward(16)
+left(45)
+forward()
+left(180)
+hop()
+right(45)
+forward(15)
+setFillColor(blue)
+right(135)
+forward(50)
+left(135)
+forward()
+left(45)
+forward(30)
+//
+setFillColor(black)
+setPosition(-240, 10)
+left(35)
+forward(140)
+arc(190, -35)
+forward(230)
+arc(190, -35)
+forward(140)
+right(145)
+forward(670)
+right(180)
+setFillColor(Color(255, 255, 255, 30))
+forward(250)
+left(65)
+forward(120)
+left(115)
+forward(130)
+//
+setPosition(150, 12)
+right(55)
+forward(130)
+right(125)
+forward(180)
+right(32)
+forward(198)
+//
+setPosition(144, 12)
+left(155)
+forward(130)
+left(122)
+forward(120)
+
+//tyre 1
+val m = Picture {
+    def shape() {
+        repeat(12) {
+            forward(50)
+            right(95)
+            forward(10)
+            left(95)
+            forward(10)
+            right()
+        }
+    }
+    def block() {
+        shape()
+        right(34)
+    }
+
+    setSpeed(superFast);
+    setPenColor(black)
+
+    right()
+    repeat(12) {
+        left()
+        repeat(10) {
+            block()
+
+        }
+    }
+}
+draw(trans(-350, -200) -> m)
+animate { m.rotate(2) }
+
+//tyre 2
+val l=Picture{
+def shape() {
+    repeat(12) {
+        forward(50 )
+        right(95)
+        forward(10)
+        left(95)
+        forward(10)
+        right()
+    }
+}
+def block() {
+    shape()
+    right(34)
+}
+
+setSpeed(superFast);
+setPenColor(black)
+
+right()
+repeat(12) {
+    left()
+    repeat(10){
+    block()
+   
+}
+}}
+draw(trans(370,-200)->l)
+animate(l.rotate(2))
+
+//front light
+setFillColor(Color(240, 255, 240, 120))
+setPosition(-590, -50)
+left(130)
+arc(220, -20)
+right(105)
+forward(50)
+right(70)
+forward(65)
+right()
+arc(120, -20)
+right()
+hop()
+forward()
+right()
+forward(10)
+right()
+forward()
+right()
+forward(10)
