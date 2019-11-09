@@ -1,0 +1,93 @@
+cleari()
+val cb = canvasBounds
+drawStage(black)
+setSpeed(fast)
+
+
+val player =  scale(0.2,0.2)->Picture.image("C:/Users/WIN 10/Pictures/ww.png")
+
+val bird = Picture{
+    circle(20)
+}
+  
+
+val block = Picture {
+    circle(20)
+
+}
+val stageborder= Picture{
+    forward(640)
+    right(90)
+     forward(940)
+    right(90)
+        forward(640)
+            right(90)
+              forward(940)
+}
+stageborder.setPosition(-470, -320)
+stageborder.setFillColor(orange)
+block.setPenColor(blue)
+block.setPosition(-300, -160)
+bird.setFillColor(red)
+block.setFillColor(blue)
+bird.setPosition(300, 200)
+draw(player)
+draw(bird)
+draw(block)
+draw(stageborder)
+var bvel = Vector2D(7, 20)
+var cvel = Vector2D(5, 10)
+var dvel = Vector2D(1, 0)
+val speed = 50
+animate {
+    bird.translate(bvel)
+    block.translate(cvel)
+    if (bird.collidesWith(stageborder)) {
+    
+        bvel = bouncePicVectorOffStage(bird, bvel)
+
+    }
+    if (player.collidesWith(stageborder)) {
+       var vel = Vector2D(10, 10)
+        dvel = bouncePicVectorOffStage(player, vel)
+
+    }
+    
+
+    if (block.collidesWith(stageBorder)) {
+        cvel = bouncePicVectorOffStage(block, cvel)
+    }
+
+    if (player.collidesWith(stageBorder)) {
+        cvel = bouncePicVectorOffStage(block, cvel)
+    }
+
+    if (player.collidesWith(bird)) {
+        player.setOpacity(0.3)
+        drawCenteredMessage("You Lose", Color(255, 24, 27), 30)
+        stopAnimation()
+    }
+     if (player.collidesWith(block)) {
+        player.setOpacity(0.3)
+        drawCenteredMessage("You Lose", Color(255, 24, 27), 30)
+        stopAnimation()
+    }
+
+   
+
+  
+
+    if (isKeyPressed(Kc.VK_RIGHT)) {
+        player.translate(speed, 0)
+    }
+    if (isKeyPressed(Kc.VK_LEFT)) {
+        player.translate(-speed, 0)
+    }
+    if (isKeyPressed(Kc.VK_UP)) {
+        player.translate(0, speed)
+    }
+    if (isKeyPressed(Kc.VK_DOWN)) {
+        player.translate(0, -speed)
+    }
+}
+activateCanvas()
