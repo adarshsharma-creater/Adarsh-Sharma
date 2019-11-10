@@ -1,177 +1,87 @@
-clear()
-clearOutput()
-drawStage(ColorMaker.black)
+cleari()
+val cb = canvasBounds
+drawStage(black)
+setSpeed(fast)
 
-class rocket {
-    val a = -7
-    val finalvel = Vector2D(0, a)
-    var vel = Vector2D(0, 0)
-    val cb = canvasBounds
-    val x = cb.x + 437.5 - 25
-    val y = cb.y + 314.5 + 200
+val background =scale(0.94, 1.14) -> Picture.image("C:/Users/MMS3/Pictures/space.jfif")
+val player =  scale(0.2,0.2)->Picture.image("C:/Users/MMS3/Pictures/w.png")
 
-    val lander = Picture {
-        right()
-        forward(120)
-        left(120)
-        forward(80)
-        left(60)
-        forward(40)
-        left(60)
-        forward(80)
+val bird = scale(0.2, 0.2) -> Picture.image("C:/Users/MMS3/Pictures/c.png")
+val block = scale(0.2, 0.2) -> Picture.image("C:/Users/MMS3/Pictures/ef.webp")
+  
+val stageborder= Picture{
+    forward(640)
+    right(90)
+     forward(940)
+    right(90)
+        forward(640)
+            right(90)
+              forward(940)
+}
+background.setPosition(-470, -320)
+stageborder.setPosition(-470, -320)
+stageborder.setPenColor(orange)
+block.setPosition(-300, -160)
+bird.setPosition(300, 200)
+
+draw(player)
+draw(bird)
+draw(block)
+draw(stageborder)
+draw(background)
+var bvel = Vector2D(7, 20)
+var cvel = Vector2D(5, 10)
+var dvel = Vector2D(1, 0)
+val speed = 50
+animate {
+    bird.translate(bvel)
+    block.translate(cvel)
+    if (bird.collidesWith(stageborder)) {
+    
+        bvel = bouncePicVectorOffStage(bird, bvel)
 
     }
-    val thruster = Picture{
+    if (player.collidesWith(stageborder)) {
+       var vel = Vector2D(10, 10)
+        dvel = bouncePicVectorOffStage(player, vel)
+
+    }
+    
+
+    if (block.collidesWith(stageBorder)) {
+        cvel = bouncePicVectorOffStage(block, cvel)
+    }
+
+    if (player.collidesWith(stageBorder)) {
+        cvel = bouncePicVectorOffStage(block, cvel)
+    }
+
+    if (player.collidesWith(bird)) {
+        player.setOpacity(0.3)
+        drawCenteredMessage("You Lose", Color(255, 24, 27), 30)
+        stopAnimation()
+    }
+     if (player.collidesWith(block)) {
+        player.setOpacity(0.3)
+        drawCenteredMessage("You Lose", Color(255, 24, 27), 30)
+        stopAnimation()
+    }
+
+   
+
   
 
-left(60)
-forward()
-right()
-forward()
-right(60)
-forward(90)
-right(60)
-forward()
-right()
-forward()
-right(30)
-forward(8)
-left(50)
-forward(42)
-right(100)
-forward(42)
-left(50)
-forward(9)
-
-
-
+    if (isKeyPressed(Kc.VK_RIGHT)) {
+        player.translate(speed, 0)
     }
-
-    val gravity = Vector2D(0, -0.3)
-
-    def draw() {
-        lander.setFillColor(red)
-        thruster.setFillColor(yellow)
-
-        lander.draw()
-        thruster.draw()
-        lander.setPosition(x, y)
-        thruster.setPosition(x + 24, y - 35)
+    if (isKeyPressed(Kc.VK_LEFT)) {
+        player.translate(-speed, 0)
     }
-
-    def step() {
-        vel = gravity + vel
-        lander.translate(vel)
-        thruster.translate(vel)
-        thruster.invisible()
-        if (isKeyPressed(Kc.VK_UP)) {
-            vel = Vector2D(0, 1)
-            vel = vel * 4
-            thruster.visible()
-        }
-        if (lander.collidesWith(m.moon)) {
-            thruster.invisible()
-            if (l.vel.y <= a) {
-                drawMessage("YOU LOSE", red)
-                stopAnimation()
-            }
-            else {
-              drawMessage("YOU WIN", yellow)
-                stopAnimation()
-            }
-            stopAnimation()
-            activateEditor()
-
-        }
-        if (lander.collidesWith(stageTop)) {
-
-            vel = bouncePicVectorOffStage(lander, vel)
-            vel = vel * 5
-
-        }
+    if (isKeyPressed(Kc.VK_UP)) {
+        player.translate(0, speed)
+    }
+    if (isKeyPressed(Kc.VK_DOWN)) {
+        player.translate(0, -speed)
     }
 }
-
-class Moon {
-    val moon = Picture {
-        right(-0)
-        forward(190)
-        right()
-        forward(210)
-        right(180)
-        hop(300)
-forward(50)
-left(80)
-forward(195)
-left(100)
-setFillColor(pink)
-forward(110)
-left(98)
-forward(195)
-left(82)
-setFillColor(yellow)
-hop(80)
-forward(160)
-left(60)
-forward(100)
-left(120)
-setFillColor(green)
-forward(140)
-right(60)
-forward(120)
-left(148)
-forward(193)
-left()
-hop(220)
-forward(150)
-setFillColor(orange)
-left(80)
-forward(195)
-left(190)
-hop(120)
-left(100)
-setFillColor(gray)
-forward(110)
-left(98)
-forward(135)
-left(180)
-setFillColor(purple)
-hop(150)
-circle(10)
-right(60)
-hop(150)
-circle(10)
-right(60)
-hop(150)
-circle(10)
-hop(150)
-right(60)
-circle(10)
-hop(150)
-circle(10)
-    }
-
-    moon.setFillColor(ColorMaker.blue)
-    moon.setPenColor(ColorMaker.yellow)
-    moon.setPosition(l.cb.x + 350 * 2 + 25, l.cb.y)
-
-    def draw() {
-        moon.draw
-    }
-}
-
-val l = new rocket
-val m = new Moon
-m.draw
-l.draw
-animate {
-    l.step
-}
-def manageGameTime() {
-    showGameTime(10, "You Lose", red, 20)
-}
-def drawMessage(m: String, c: Color) {
-    drawCenteredMessage(m, c, 30)
-}
-manageGameTime()
 activateCanvas()
