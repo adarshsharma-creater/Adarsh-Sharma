@@ -1,0 +1,171 @@
+cleari()
+drawStage(yellow)
+var cb = canvasBounds
+//Board
+class TicTacToeboard {
+    def drawLine(x: Double, y: Double, a: Double) = {
+        var line = penThickness(8) * penColor(green) -> Picture.line(0, 300)
+        line.setPosition(x, y)
+        line.rotate(a)
+        line.draw()
+    }
+}
+//X
+var X =  scale(0.08) -> Picture.image("C:/Users/win-10/Downloads/6.png")
+//O
+var O =  scale(0.15) -> Picture.image("C:/Users/win-10/Downloads/9.png")
+//Boxes
+val Box = penColor(yellow) * fillColor(yellow) -> Picture.rect(100, 100)
+val box1 = trans(-150, 150) -> Box.copy
+val box2 = trans(-50, 150) -> Box.copy
+val box3 = trans(50, 150) -> Box.copy
+val box4 = trans(-150, 50) -> Box.copy
+val box5 = trans(-50, 50) -> Box.copy
+val box6 = trans(50, 50) -> Box.copy
+val box7 = trans(-150, -50) -> Box.copy
+val box8 = trans(-50, -50) -> Box.copy
+val box9 = trans(50, -50) -> Box.copy
+var boxes = ArrayBuffer(box1, box2, box3, box4, box5, box6, box7, box8, box9)
+//checkturn function
+var win = false
+var B1, B2, B3, B4, B5, B6, B7, B8, B9 = 3
+var turn = true
+var filled = 0
+boxes.foreach { m =>
+    def checkturn() {
+        if (turn == false) {
+            draw(trans(m.position.x + 10, m.position.y + 10) -> O)
+            turn = true
+            if (m == box1) {
+                B1 = 0
+            }
+            if (m == box2) {
+                B2 = 0
+            }
+            if (m == box3) {
+                B3 = 0
+            }
+            if (m == box4) {
+                B4 = 0
+            }
+            if (m == box5) {
+                B5 = 0
+            }
+            if (m == box6) {
+                B6 = 0
+            }
+            if (m == box7) {
+                B7 = 0
+            }
+            if (m == box8) {
+                B8 = 0
+            }
+            if (m == box9) {
+                B9 = 0
+            }
+        }
+        else if (turn == true) {
+            draw(trans(m.position.x + 5, m.position.y + 8) -> X)
+            turn = false
+            if (m == box1) {
+                B1 = 1
+            }
+            if (m == box2) {
+                B2 = 1
+            }
+            if (m == box3) {
+                B3 = 1
+            }
+            if (m == box4) {
+                B4 = 1
+            }
+            if (m == box5) {
+                B5 = 1
+            }
+            if (m == box6) {
+                B6 = 1
+            }
+            if (m == box7) {
+                B7 = 1
+            }
+            if (m == box8) {
+                B8 = 1
+            }
+            if (m == box9) {
+                B9 = 1
+            }
+        }
+    }
+    def erase() {
+        boxes.foreach { b =>
+            b.erase
+        }
+    }
+
+    def checkwin(p: Double, b: String) {
+        //ROW
+        if ((B1 == p) && (B2 == p) && (B3 == p)) {
+            drawCenteredMessage(b, red, 50)
+            win = true
+            erase()
+        }
+        if ((B4 == p) && (B5 == p) && (B6 == p)) {
+            drawCenteredMessage(b,red, 50)
+            win = true
+            erase()
+        }
+        if ((B7 == p) && (B8 == p) && (B9 == p)) {
+            drawCenteredMessage(b, red, 50)
+            win = true
+            erase()
+        }
+        //COLUMN
+        if ((B1 == p) && (B4 == p) && (B7 == p)) {
+            drawCenteredMessage(b, red, 50)
+            win = true
+            erase()
+        }
+        setPosition(0, -150)
+        if ((B2 == p) && (B5 == p) && (B8 == p)) {
+            setPosition(0, -150)
+            drawCenteredMessage(b, red, 50)
+            win = true
+            erase()
+        }
+        if ((B3 == p) && (B6 == p) && (B9 == p)) {
+            drawCenteredMessage(b, red, 50)
+            win = true
+            erase()
+        }
+        //DIAGONAL
+        if ((B1 == p) && (B5 == p) && (B9 == p)) {
+            drawCenteredMessage(b, green, 150)
+            win = true
+            erase()
+        }
+        if ((B3 == p) && (B5 == p) && (B7 == p)) {
+            drawCenteredMessage(b, green, 150)
+            win = true
+            erase()
+        }
+        if (win == false) {
+            if (filled == 9) {
+                drawCenteredMessage("Its Draw!", red, 75)
+                erase()
+            }
+        }
+    }
+     m.draw
+    m.onMouseClick { (x, y) =>
+        filled = filled + 1
+        checkturn()
+        checkwin(1, "X Player win!")
+        checkwin(0, "O  Player Win!")
+      }
+}
+//Draw Board,X,O
+var l = new TicTacToeboard
+l.drawLine(-50, -50, 0)
+l.drawLine(50, -50, 0)
+l.drawLine(150, 50, 90)
+l.drawLine(150, 150, 90)
